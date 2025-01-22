@@ -18,3 +18,4 @@ class PaymentList(generics.ListAPIView):
     }
     ordering_fields = ["payment_date"]
     ordering = ["payment_date"]
+
