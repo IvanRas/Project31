@@ -1,12 +1,11 @@
-from rest_framework import generics, filters
+from rest_framework import generics, filters, viewsets, permissions
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Payment, User
-from .serializers import PaymentSerializer, UserSerializer
-from rest_framework.generics import CreateAPIView, UpdateAPIView, DestroyAPIView, ListAPIView
-from rest_framework.permissions import AllowAny
+from .models import Payment
+from django.contrib.auth import get_user_model
+from .serializers import UserSerializer
+from .serializers import PaymentSerializer
 
-from .serliazers import MyTokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
+User = get_user_model()
 
 
 class PaymentList(generics.ListAPIView):
@@ -22,42 +21,14 @@ class PaymentList(generics.ListAPIView):
     ordering = ["payment_date"]
 
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
-
-class UserCreateAPIView(CreateAPIView):
-    serializer_class = UserSerializer
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = (AllowAny,)
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action in ["create", "list"]:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
 
     def perform_create(self, serializer):
-        user = serializer.save(is_activ=True)
-        user.set_password(user.password)
-        user.save()
-
-
-class UserUpdateAPIView(UpdateAPIView):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
-    def perform_update(self, serializer):
-        user = serializer.save(is_activ=True)
-        user.set_password(user.password)
-        user.save()
-
-
-class UserDestroyAPIViewAPIView(DestroyAPIView):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
-    def perform_destroy(self, serializer):
-        user = serializer.save(is_activ=True)
-        user.set_password(user.password)
-        user.save()
-
-
-class UserListAPIView(ListAPIView):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
+        serializer.save()

@@ -1,7 +1,9 @@
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
+from django.contrib.auth.models import User
 
-from .models import Payment, User
+from users.models import Payment
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -10,7 +12,26 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class UserSerializer(ModelSerializer):
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Добавление пользовательских полей в токен
+        token["username"] = user.username
+        token["email"] = user.email
+
+        return token
+
+
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        filter = "__all__"
+        fields = "__all__"
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        user = User(**validated_data)
+        user.set_password(validated_data["password"])
+        user.save()
+        return user

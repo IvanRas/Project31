@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -12,7 +13,16 @@ class Course(models.Model):
         verbose_name="фото",
         help_text="Загрузити фотографию",
     )
-    description = models.TextField(max_length=250, verbose_name="описание", help_text="Введите описание")
+    description = models.TextField(
+        max_length=250, verbose_name="описание", help_text="Введите описание"
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="courses",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.title}"
@@ -24,7 +34,9 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     title = models.CharField(max_length=150, verbose_name="название")
-    description = models.TextField(max_length=250, verbose_name="описание", help_text="Введите описание")
+    description = models.TextField(
+        max_length=250, verbose_name="описание", help_text="Введите описание"
+    )
     preview = models.ImageField(
         upload_to="product/photo",
         blank=True,
@@ -33,7 +45,16 @@ class Lesson(models.Model):
         help_text="Загрузити фотографию",
     )
     video_url = models.URLField(null=True, blank=True, verbose_name="Ссылка на видео")
-    course = models.ForeignKey(Course, related_name="lessons", on_delete=models.CASCADE)
+    course = models.ForeignKey(
+        Course, null=True, blank=True, related_name="lessons", on_delete=models.CASCADE
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="lessons",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return f"{self.title}"

@@ -1,0 +1,29 @@
+[
+    {
+        "model": "college.lesson",
+        "pk": 1,
+        "fields": {
+            "title": "Введение в Python",
+            "description": "Основы языка программирования Python.",
+            "course": 1
+        }
+    },
+    {
+        "model": "college.lesson",
+        "pk": 2,
+        "fields": {
+            "title": "Работа с переменными",
+            "description": "Как использовать переменные в Python.",
+            "course": 1
+        }
+    },
+    {
+        "model": "college.lesson",
+        "pk": 3,
+        "fields": {
+            "title": "Создание проектов на Django",
+            "description": "Как создать ваше первое приложение на Django.",
+            "course": 2
+        }
+    }
+]

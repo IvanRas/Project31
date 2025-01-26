@@ -3,11 +3,18 @@ from django.db import models
 
 from college.models import Course, Lesson
 
+
 # Create your models here.
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=50, null=True, blank=True, verbose_name="Имя пользователя")
+    username = models.CharField(
+        max_length=100,
+        verbose_name="Username",
+        blank=True,
+        null=True,
+        help_text="Введите свое имя",
+    )
     email = models.EmailField(unique=True, verbose_name="Электронная почта")
     avatar = models.ImageField(
         upload_to="users/avatars",
@@ -50,8 +57,12 @@ class Payment(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_date = models.DateTimeField(auto_now_add=True)
-    paid_course = models.ForeignKey(Course, null=True, blank=True, on_delete=models.CASCADE)
-    paid_lesson = models.ForeignKey(Lesson, null=True, blank=True, on_delete=models.CASCADE)
+    paid_course = models.ForeignKey(
+        Course, null=True, blank=True, on_delete=models.CASCADE
+    )
+    paid_lesson = models.ForeignKey(
+        Lesson, null=True, blank=True, on_delete=models.CASCADE
+    )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=10, choices=PAYMENT_METHODS)
 
