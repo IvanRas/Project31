@@ -6,8 +6,8 @@ from django.shortcuts import get_object_or_404
 
 
 from .models import Course, Lesson, Subscription
-from .serializers import LessonSerializer, CourseSerializer
 from .permissions import IsModerator
+from .serliazers import CourseSerializer, LessonSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -18,7 +18,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         if self.action in ["create", "destroy"]:
             return [permissions.IsAdminUser()]
         elif self.action in ["list", "retrieve", "update"]:
-            return [IsModerator() | permissions.IsAuthenticated()]
+            return [IsModerator() or permissions.IsAuthenticated()]
         return super().get_permissions()
 
     def get_queryset(self):
@@ -39,7 +39,7 @@ class LessonViewSet(viewsets.ModelViewSet):
         if self.action in ["create", "destroy"]:
             return [permissions.IsAdminUser()]
         elif self.action in ["list", "retrieve", "update"]:
-            return [IsModerator() | permissions.IsAuthenticated()]
+            return [IsModerator() or permissions.IsAuthenticated()]
         return super().get_permissions()
 
     def get_queryset(self):

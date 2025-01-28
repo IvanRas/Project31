@@ -32,6 +32,18 @@ class Course(models.Model):
         verbose_name_plural = "курсы"
 
 
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="subscriptions", on_delete=models.CASCADE
+    )
+    course = models.ForeignKey(
+        Course, related_name="subscriptions", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = ("user", "course")  # Обеспечивает уникальность подписки
+
+
 class Lesson(models.Model):
     title = models.CharField(max_length=150, verbose_name="название")
     description = models.TextField(
@@ -55,6 +67,9 @@ class Lesson(models.Model):
         null=True,
         blank=True,
     )
+    subs = models.ForeignKey(
+        Subscription, null=True, blank=True, related_name="subscription", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return f"{self.title}"
@@ -62,15 +77,3 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "урок"
         verbose_name_plural = "уроки"
-
-
-class Subscription(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="subscriptions", on_delete=models.CASCADE
-    )
-    course = models.ForeignKey(
-        Course, related_name="subscriptions", on_delete=models.CASCADE
-    )
-
-    class Meta:
-        unique_together = ("user", "course")  # Обеспечивает уникальность подписки

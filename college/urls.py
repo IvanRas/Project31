@@ -21,7 +21,8 @@ from rest_framework.routers import DefaultRouter
 from college.apps import CollegeConfig
 from college.views import (
     CourseViewSet,
-    LessonViewSet, SubscriptionView,
+    LessonViewSet,
+    SubscriptionView,
 )
 
 app_name = CollegeConfig.name

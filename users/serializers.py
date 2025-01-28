@@ -1,6 +1,5 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
 
 from users.models import Payment
