@@ -1,5 +1,11 @@
 from rest_framework import viewsets, permissions
-from .models import Course, Lesson
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+
+
+from .models import Course, Lesson, Subscription
 from .serializers import LessonSerializer, CourseSerializer
 from .permissions import IsModerator
 
@@ -43,3 +49,22 @@ class LessonViewSet(viewsets.ModelViewSet):
         ):
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=self.request.user)
+
+
+class SubscriptionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        course_id = request.data.get("course_id")
+        course_item = get_object_or_404(Course, id=course_id)
+        subs_item = Subscription.objects.filter(user=user, course=course_item)
+
+        if subs_item.exists():
+            subs_item.delete()
+            message = "Подписка удалена"
+        else:
+            Subscription.objects.create(user=user, course=course_item)
+            message = "Подписка добавлена"
+
+        return Response({"message": message})

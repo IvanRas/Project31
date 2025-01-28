@@ -62,3 +62,15 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "урок"
         verbose_name_plural = "уроки"
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="subscriptions", on_delete=models.CASCADE
+    )
+    course = models.ForeignKey(
+        Course, related_name="subscriptions", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = ("user", "course")  # Обеспечивает уникальность подписки
