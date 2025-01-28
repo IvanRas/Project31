@@ -1,0 +1,28 @@
+[
+{
+    "model": "college.lesson",
+    "pk": 1,
+    "fields": {
+        "title": "Обязательное поле 1.",
+        "description": "Обязательное поле 3.",
+        "preview": "",
+        "video_url": "https://www.youtube.com/feed/subscriptions",
+        "course": null,
+        "owner": null,
+        "subs": null
+    }
+},
+{
+    "model": "college.lesson",
+    "pk": 2,
+    "fields": {
+        "title": "Обязательное поле 1.",
+        "description": "Обязательное поле 3.",
+        "preview": "",
+        "video_url": "https://www.youtube.com/feed/subscriptions",
+        "course": null,
+        "owner": null,
+        "subs": null
+    }
+}
+]

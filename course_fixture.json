@@ -1,0 +1,32 @@
+[
+{
+    "model": "college.course",
+    "pk": 1,
+    "fields": {
+        "title": "первый курс",
+        "preview": "",
+        "description": "Обязательное поле.",
+        "owner": null
+    }
+},
+{
+    "model": "college.course",
+    "pk": 2,
+    "fields": {
+        "title": "второй курс",
+        "preview": "",
+        "description": "Обязательное поле.",
+        "owner": null
+    }
+},
+{
+    "model": "college.course",
+    "pk": 3,
+    "fields": {
+        "title": "третий курс",
+        "preview": "",
+        "description": "Обязательное поле.",
+        "owner": null
+    }
+}
+]
