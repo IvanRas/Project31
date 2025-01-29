@@ -5,6 +5,9 @@ from django.conf import settings
 
 
 class Course(models.Model):
+    """
+    класс курса - невание, описание, автор, фотография
+    """
     title = models.CharField(max_length=150, verbose_name="название")
     preview = models.ImageField(
         upload_to="product/photo",
@@ -33,6 +36,10 @@ class Course(models.Model):
 
 
 class Subscription(models.Model):
+    """
+    класс подписчика - имя, курс
+    курс сязаный с классом курс
+    """
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="subscriptions", on_delete=models.CASCADE
     )
@@ -45,6 +52,10 @@ class Subscription(models.Model):
 
 
 class Lesson(models.Model):
+    """
+    класс урока - название, описание, автор, фотография, ссылка, подписчик
+    пописчик сязаный с классом подписчик
+    """
     title = models.CharField(max_length=150, verbose_name="название")
     description = models.TextField(
         max_length=250, verbose_name="описание", help_text="Введите описание"

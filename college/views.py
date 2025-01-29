@@ -11,6 +11,9 @@ from .serliazers import CourseSerializer, LessonSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """
+    управление курсом и проверка разрешений
+    """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
@@ -32,6 +35,9 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class LessonViewSet(viewsets.ModelViewSet):
+    """
+    управление уроком и проверка разрешений
+    """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
 
@@ -52,6 +58,9 @@ class LessonViewSet(viewsets.ModelViewSet):
 
 
 class SubscriptionView(APIView):
+    """
+    управление подписками и проверка на то есть ли она
+    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
