@@ -33,8 +33,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save()
 
+
 #
 # class UserViewSet(generics.ListAPIView):
 #     queryset = User.objects.all()
 #     serializer_class = UserSerializer
-

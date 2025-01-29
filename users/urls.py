@@ -12,7 +12,6 @@ app_name = UsersConfig.name
 urlpatterns = [
     path("payments/", PaymentList.as_view(), name="payment-list"),
     # path("person/", UserViewSet.as_view(), name="person"),
-
     path(
         "login/",
         TokenObtainPairView.as_view(permission_classes=(AllowAny,)),

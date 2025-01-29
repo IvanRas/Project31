@@ -8,6 +8,7 @@ class Course(models.Model):
     """
     класс курса - невание, описание, автор, фотография
     """
+
     title = models.CharField(max_length=150, verbose_name="название")
     preview = models.ImageField(
         upload_to="product/photo",
@@ -40,6 +41,7 @@ class Subscription(models.Model):
     класс подписчика - имя, курс
     курс сязаный с классом курс
     """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="subscriptions", on_delete=models.CASCADE
     )
@@ -56,6 +58,7 @@ class Lesson(models.Model):
     класс урока - название, описание, автор, фотография, ссылка, подписчик
     пописчик сязаный с классом подписчик
     """
+
     title = models.CharField(max_length=150, verbose_name="название")
     description = models.TextField(
         max_length=250, verbose_name="описание", help_text="Введите описание"
@@ -79,7 +82,11 @@ class Lesson(models.Model):
         blank=True,
     )
     subs = models.ForeignKey(
-        Subscription, null=True, blank=True, related_name="subscription", on_delete=models.CASCADE
+        Subscription,
+        null=True,
+        blank=True,
+        related_name="subscription",
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):

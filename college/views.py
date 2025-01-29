@@ -14,6 +14,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     """
     управление курсом и проверка разрешений
     """
+
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
@@ -38,6 +39,7 @@ class LessonViewSet(viewsets.ModelViewSet):
     """
     управление уроком и проверка разрешений
     """
+
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
 
@@ -61,6 +63,7 @@ class SubscriptionView(APIView):
     """
     управление подписками и проверка на то есть ли она
     """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
