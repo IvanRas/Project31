@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "users",
     "college",
     "django_filters",
+
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
