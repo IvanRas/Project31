@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from users.apps import UsersConfig
-from users.views import PaymentList, UserViewSet
+from users.views import PaymentList, UserViewSet, PaymentViewSet
 from rest_framework.permissions import AllowAny
 
 
@@ -22,4 +22,6 @@ urlpatterns = [
         TokenRefreshView.as_view(permission_classes=(AllowAny,)),
         name="token_refresh",
     ),
+    path("create-payment/", PaymentViewSet.as_view(), name='create_payment'),
+
 ]
