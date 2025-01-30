@@ -30,7 +30,7 @@ def convert_rub_to_dollars(amount):
     Конвертация рубли в доллары.
     """
     c = CurrencyRates()
-    rate = c.get_rate('RUB','USD')
+    rate = c.get_rate("RUB", "USD")
     return int(amount * rate)
 
 
@@ -50,13 +50,15 @@ def create_stripe_session(prise):
     Создает сессию на оплвту.
     """
     session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price': prise.get("id"),
-            'quantity': 1,
-        }],
-        mode='payment',
-        success_url='http://localhost:8000/',  # Страница при успешной оплате
-        cancel_url='http://localhost:8000/',  # Страница при отмене оплаты
+        payment_method_types=["card"],
+        line_items=[
+            {
+                "price": prise.get("id"),
+                "quantity": 1,
+            }
+        ],
+        mode="payment",
+        success_url="http://localhost:8000/",  # Страница при успешной оплате
+        cancel_url="http://localhost:8000/",  # Страница при отмене оплаты
     )
     return session.get("id"), session.get("URL")

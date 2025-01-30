@@ -8,8 +8,12 @@ from .models import Payment
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from .serializers import PaymentSerializer
-from .services import convert_rub_to_dollars, create_stripe_price, create_stripe_session, create_product_course, \
-    create_product_lesson
+from .services import (
+    create_stripe_price,
+    create_stripe_session,
+    create_product_course,
+    create_product_lesson,
+)
 
 User = get_user_model()
 
@@ -53,10 +57,12 @@ class PaymentViewSet(CreateAPIView):
 
     def perform_create(self, serializer):
         global price, product_price
-        product_type = serializer.validated_data['product_type']  # 'course' или 'lesson'
-        product_id = serializer.validated_data['product_id']  # ID курса или урока
+        product_type = serializer.validated_data[
+            "product_type"
+        ]  # 'course' или 'lesson'
+        product_id = serializer.validated_data["product_id"]  # ID курса или урока
 
-        if product_type == 'course':
+        if product_type == "course":
             product = Course.objects.get(id=product_id)
             product_title = product.title
             product_price = product.price
@@ -68,7 +74,7 @@ class PaymentViewSet(CreateAPIView):
             product.stripe_price_id = price.id
             product.save()
 
-        if product_type == 'lesson':
+        if product_type == "lesson":
             product = Lesson.objects.get(id=product_id)
             product_title = product.title
             product_price = product.price
@@ -91,11 +97,13 @@ class PaymentViewSet(CreateAPIView):
             payment_link=session.url,
         )
 
-        return Response({
-            'checkout_url': session.url,
-            'payment_id': payment.id,
-        }, status=status.HTTP_201_CREATED)
-
+        return Response(
+            {
+                "checkout_url": session.url,
+                "payment_id": payment.id,
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
         # payment = serializer.save(user=self.request.user)
         # amount_in_dollar = convert_rub_to_dollars(payment.amount)
