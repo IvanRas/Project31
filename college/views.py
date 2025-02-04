@@ -66,6 +66,7 @@ class SubscriptionView(APIView):
 
     permission_classes = [IsAuthenticated]
 
+    @staticmethod
     def post(self, request):
         user = request.user
         course_id = request.data.get("course_id")
