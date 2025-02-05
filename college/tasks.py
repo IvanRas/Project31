@@ -12,6 +12,7 @@ def subscription_renewal(to_email, subject, message):
     send_mail(subject, message, settings.EMAIL_HOST_USER[to_email])
 
 
+@shared_task
 def blocked_inactive_user():
     """
     blocking a user who has not logged in for more than a month
