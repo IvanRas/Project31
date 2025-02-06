@@ -13,7 +13,7 @@ def subscription_renewal(to_email, subject, message):
 
 
 @shared_task
-def blocked_inactive_user():
+def deactivate_inactive_users():
     """
     blocking a user who has not logged in for more than a month
     блокировка пользователя, который не заходил в систему более месяца
