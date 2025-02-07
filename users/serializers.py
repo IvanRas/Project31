@@ -1,12 +1,16 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
 
 from users.models import Payment
 
 
 class PaymentSerializer(serializers.ModelSerializer):
+    product_type = serializers.ChoiceField(
+        choices=[("course", "Course"), ("lesson", "Lesson")]
+    )
+    product_id = serializers.IntegerField()
+
     class Meta:
         model = Payment
         fields = "__all__"

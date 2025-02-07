@@ -22,6 +22,7 @@ from college.apps import CollegeConfig
 from college.views import (
     CourseViewSet,
     LessonViewSet,
+    SubscriptionView,
 )
 
 app_name = CollegeConfig.name
@@ -30,4 +31,7 @@ router = DefaultRouter()
 router.register(r"courses", CourseViewSet, basename="course")
 router.register(r"lessons", LessonViewSet, basename="lesson")
 
-urlpatterns = [path("", include(router.urls))]
+urlpatterns = [
+    path("", include(router.urls)),
+    path("subscriptions/", SubscriptionView.as_view(), name="subscription"),
+]
