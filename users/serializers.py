@@ -6,6 +6,11 @@ from users.models import Payment
 
 
 class PaymentSerializer(serializers.ModelSerializer):
+    product_type = serializers.ChoiceField(
+        choices=[("course", "Course"), ("lesson", "Lesson")]
+    )
+    product_id = serializers.IntegerField()
+
     class Meta:
         model = Payment
         fields = "__all__"
