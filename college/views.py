@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from .models import Course, Lesson, Subscription
 from .permissions import IsModerator
 from .serliazers import CourseSerializer, LessonSerializer
+from .tasks import subscription_renewal
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -28,8 +29,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
 
         if (
-            self.request.user.groups.filter(name="moderators").exists()
-            or self.request.user.is_staff
+            self.request.user.groups.filter(name="moderators").exists() or self.request.user.is_staff
         ):
             return Course.objects.all()
         return Course.objects.filter(owner=self.request.user)
@@ -52,8 +52,7 @@ class LessonViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if (
-            self.request.user.groups.filter(name="moderators").exists()
-            or self.request.user.is_staff
+            self.request.user.groups.filter(name="moderators").exists() or self.request.user.is_staff
         ):
             return Lesson.objects.all()
         return Lesson.objects.filter(owner=self.request.user)
@@ -66,11 +65,15 @@ class SubscriptionView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         user = request.user
         course_id = request.data.get("course_id")
         course_item = get_object_or_404(Course, id=course_id)
         subs_item = Subscription.objects.filter(user=user, course=course_item)
+        subject = "Спасибо за подписку!"
+        email_message = f"Благодарим вас за подписку на курс: {course_item.title}."
+        message = "Подписка добавлена"
 
         if subs_item.exists():
             subs_item.delete()
@@ -78,5 +81,8 @@ class SubscriptionView(APIView):
         else:
             Subscription.objects.create(user=user, course=course_item)
             message = "Подписка добавлена"
+            subscription_renewal.delay(user.email, subject, email_message)
+
+        return Response({"message": message}, status=status.HTTP_200_OK)
 
         return Response({"message": message})
