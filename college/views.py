@@ -84,5 +84,3 @@ class SubscriptionView(APIView):
             subscription_renewal.delay(user.email, subject, email_message)
 
         return Response({"message": message}, status=status.HTTP_200_OK)
-
-        return Response({"message": message})
