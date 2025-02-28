@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta
 
 from dotenv import load_dotenv
@@ -189,3 +190,11 @@ CSRF_TRUSTED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = False
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': "django.db.backends.sqlite3",
+            'NAME': BASE_DIR / 'test_db.sqlite3'
+        }
+    }
