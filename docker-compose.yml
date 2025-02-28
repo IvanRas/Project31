@@ -42,6 +42,10 @@ services:
 
   db:
     image: postgres:17
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
@@ -74,4 +78,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
-  redis_volume:
+  redis_data:
