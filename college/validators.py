@@ -11,7 +11,6 @@ def validate_video_link(value):
 
     # Проверяем, что ссылка - это youtube.com или youtu.be
     if (
-        "youtube.com" not in parsed_url.hostname
-        and "youtu.be" not in parsed_url.hostname
+        "youtube.com" not in parsed_url.hostname and "youtu.be" not in parsed_url.hostname
     ):
         raise ValidationError("Разрешены только ссылки на youtube.com.")

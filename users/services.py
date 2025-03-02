@@ -39,7 +39,7 @@ def create_stripe_price(amount):
     Создает цену в страйпе.
     """
     return stripe.Price.create(
-        currency="usd",
+        currency="rub",
         unit_amount=amount * 100,
         product_data={"name": "Payments"},
     )
